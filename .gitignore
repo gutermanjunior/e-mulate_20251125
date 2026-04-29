@@ -1,0 +1,197 @@
+###############################################################################
+# 📊 RESULTADOS DE EXECUÇÃO / DADOS GERADOS
+###############################################################################
+
+# Saídas do simulador
+Simulacoes/*
+Simulacoes/.gitkeep
+
+# Outros possíveis outputs
+output/
+results/
+
+
+
+###############################################################################
+# 🐍 PYTHON: arquivos compilados, cache e artefatos
+###############################################################################
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Extensões C
+*.so
+
+# Distribuição / empacotamento
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Logs de instalação
+pip-log.txt
+pip-delete-this-directory.txt
+
+###############################################################################
+# 🧪 TESTES, COBERTURA E FERRAMENTAS
+###############################################################################
+
+# pytest
+.pytest_cache/
+
+# coverage.py
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+
+# Hypothesis
+.hypothesis/
+
+###############################################################################
+# 🌐 AMBIENTES VIRTUAIS (venv, virtualenv, etc.)
+###############################################################################
+
+# Ambientes locais comuns
+venv/
+.env/
+.venv/
+env/
+ENV/
+
+# Exemplo:
+# Se você criar um ambiente com:
+#   python -m venv venv
+# essa pasta será ignorada automaticamente.
+
+###############################################################################
+# 🧰 PYENV
+###############################################################################
+
+# Arquivo que define a versão do Python local
+.python-version
+
+# Exemplo:
+# Esse arquivo costuma conter algo como "3.11.2"
+# e não deve ser versionado pois pode variar entre devs.
+
+###############################################################################
+# 🧾 CONFIGURAÇÕES DE EDITORES / IDEs
+###############################################################################
+
+# Sublime Text - workspace (estado da janela, abas abertas, etc.)
+*.sublime-workspace
+
+# Sublime Text - projeto (opcional versionar)
+# 👉 RECOMENDAÇÃO:
+# - Versione se for configuração compartilhada do time
+# - Ignore se for algo pessoal
+#
+# Descomente a linha abaixo se NÃO quiser versionar:
+# *.sublime-project
+
+# VSCode
+.vscode/
+
+# JetBrains (PyCharm, etc.)
+.idea/
+
+###############################################################################
+# 📄 ARQUIVOS DE CONFIGURAÇÃO LOCAL / SENSÍVEIS
+###############################################################################
+
+# Variáveis de ambiente
+.env
+.env.*
+
+# Exemplo:
+# .env pode conter:
+#   SECRET_KEY=abc123
+#   DATABASE_URL=...
+# Nunca deve ir para o repositório.
+
+###############################################################################
+# 📦 DEPENDÊNCIAS (casos específicos)
+###############################################################################
+
+# Se usar pip-tools:
+# Pode versionar requirements.txt mas ignorar caches
+__pypackages__/
+
+###############################################################################
+# 🧹 ARQUIVOS TEMPORÁRIOS E DO SISTEMA
+###############################################################################
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Linux
+*~
+
+###############################################################################
+# 📊 NOTEBOOKS JUPYTER (opcional)
+###############################################################################
+
+.ipynb_checkpoints
+
+# Exemplo:
+# checkpoints automáticos do Jupyter não precisam ser versionados.
+
+###############################################################################
+# 🔒 SEGURANÇA EXTRA (opcional)
+###############################################################################
+
+# Chaves privadas
+*.pem
+*.key
+
+# Dumps de banco
+*.sql
+*.sqlite3
+
+###############################################################################
+# 🧠 DICAS GERAIS
+###############################################################################
+
+# ✔ Versione:
+#   - código fonte (.py)
+#   - requirements.txt / pyproject.toml
+#   - configs compartilhadas do projeto
+#
+# ❌ NÃO versione:
+#   - ambiente virtual
+#   - arquivos locais do editor
+#   - segredos / credenciais
+#
+# 💡 Boa prática:
+#   Use `.env.example` para mostrar quais variáveis são necessárias:
+#
+#   Exemplo de .env.example:
+#     DATABASE_URL=
+#     SECRET_KEY=
