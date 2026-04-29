@@ -1,0 +1,327 @@
+# This file contains the data to create a structure using two materials. Their properties must be 
+# defined here.
+# '#' defines a comment.
+
+######################################____Example____##############################################
+# Title, shown in the materials list presented on the "New Simulation" window.
+[InAlAs-InGaAs]
+# Lattice parameter (in angstrons = 1E-10m)
+latpar = 5.8687E-10
+  
+# Properties of the barrier material
+# Name, appears on the structure table under the "Material" column -> String
+barrier: InAlAs
+# Effective mass, constant: m_eff_ct * electron_mass -> Float in scientific 
+m_eff_ct_barrier: 7.61544325168e-32
+# Electronic potential of the barrier -> Float
+pot_barrier: 0.503
+# Non-parabolicity of the barrier -> Float in scientific 
+e_nonparab_barrier: 2.065014390417958e-19
+
+# Properties of the well material
+well: InGaAs
+m_eff_ct_well: 3.97169049968e-32
+pot_well: 0.0
+e_nonparab_well: 1.0769692275385522e-19
+###################################################################################################
+
+[MaterialA-MaterialB]
+latpar = 6.1234E-10
+barrier: MaterialA
+m_eff_ct_barrier: 6.376567316000001e-32
+pot_barrier: 0.4
+e_nonparab_barrier: 1.065014390417958e-19
+well: MaterialB
+m_eff_ct_well: 3.6437527520000004e-32
+pot_well: 0.0
+e_nonparab_well: 1.2769692275385522e-19
+###################################################################################################
+
+[GaAs-AlGaAs]
+# Parâmetro de rede (em metros) - GaAs e AlGaAs são praticamente casados
+latpar = 5.6533E-10
+
+# Propriedades da barreira (AlGaAs x=0.3)
+barrier: AlGaAs
+# Massa efetiva (0.092 * m0)
+m_eff_ct_barrier: 8.3806e-32
+# Potencial da barreira (Offset da banda de condução ~ 224 meV)
+pot_barrier: 0.224
+# Parâmetro de não-parabolicidade (aprox. Gap de energia em Joules)
+e_nonparab_barrier: 2.8807e-19
+
+# Propriedades do poço (GaAs)
+well: GaAs
+# Massa efetiva (0.067 * m0)
+m_eff_ct_well: 6.1033e-32
+# Potencial do poço (Referência)
+pot_well: 0.0
+# Parâmetro de não-parabolicidade (Gap do GaAs em Joules)
+e_nonparab_well: 2.2815e-19
+
+
+
+
+
+
+
+
+
+
+###################################################################################################
+# material_GMP_20260323.data
+###################################################################################################
+
+# E_CHARGE = 1.602176634e-19  # Electron charge - C
+# E_MASS = 9.1093837015e-31  # Electron mass - Kg
+
+[Al0.26Ga0.74As-GaAs]
+latpar = 5.65315E-10
+barrier: Al0.26Ga0.74As
+
+# m_eff_ct_barrier: usando equacao (0.083 * x + 0.067)*E_MASS
+m_eff_ct_barrier: 8.069092082788701e-32
+
+# pot_barrier: usando equacao 1.043 * x
+pot_barrier: 0.271128
+ 
+# e_nonparab_barrier: Usando o gap do material como primeira tentativa  [(1.58 * x + 1.519) * E_CHARGE]
+e_nonparab_barrier: 3.0918804682931997e-19
+
+well: GaAs
+
+# m_eff_ct_well: usando 0.067*E_MASS 
+m_eff_ct_well: 6.103287080005001e-32
+
+pot_well: 0.0
+
+# e_nonparab_well: Usando o gap do material como primeira tentativa (1.519*E_CHARGE)
+e_nonparab_well: 2.4337063070459995e-19  
+
+#############################################
+[Al0.207Ga0.793As-GaAs]
+latpar = 5.65315E-10
+barrier: Al0.207Ga0.793As
+
+# m_eff_ct_barrier: usando equacao (0.083 * x + 0.067)*E_MASS
+m_eff_ct_barrier: 7.668370293759716e-32
+
+# pot_barrier: usando equacao 1.043 * x
+pot_barrier: 0.2158596
+ 
+# e_nonparab_barrier: Usando o gap do material como primeira tentativa  [(1.58 * x + 1.519) * E_CHARGE]
+e_nonparab_barrier: 2.95771419696204e-19
+
+well: GaAs
+
+# m_eff_ct_well: usando 0.067*E_MASS 
+m_eff_ct_well: 6.103287080005001e-32
+
+pot_well: 0.0
+
+# e_nonparab_well: Usando o gap do material como primeira tentativa (1.519*E_CHARGE)
+e_nonparab_well: 2.4337063070459995e-19  
+
+###############################################3
+[Al0.42Ga0.58As-GaAs]
+latpar = 5.65315E-10
+barrier: Al0.42Ga0.58As
+
+# m_eff_ct_barrier: usando equacao (0.083 * x + 0.067)*E_MASS
+m_eff_ct_barrier:  9.278818238347902e-32
+
+# pot_barrier: usando equacao 1.043 * x
+pot_barrier: 0.437976
+ 
+# e_nonparab_barrier: Usando o gap do material como primeira tentativa  [(1.58 * x + 1.519) * E_CHARGE]
+e_nonparab_barrier: 3.4969107213684e-19
+
+well: GaAs
+
+# m_eff_ct_well: usando 0.067*E_MASS 
+m_eff_ct_well: 6.103287080005001e-32
+
+pot_well: 0.0
+
+# e_nonparab_well: Usando o gap do material como primeira tentativa (1.519*E_CHARGE)
+e_nonparab_well: 2.4337063070459995e-19  
+
+
+######################################
+[Al0.10Ga0.90As-GaAs]
+latpar = 5.65315E-10
+barrier: Al0.10Ga0.90As
+m_eff_ct_barrier:  6.859365927229501e-32
+pot_barrier: 0.10428
+e_nonparab_barrier: 2.686850215218e-19
+
+well: GaAs
+m_eff_ct_well: 6.103287080005001e-32
+pot_well: 0.0
+e_nonparab_well: 2.4337063070459995e-19  
+
+######################################
+[Al0.15Ga0.85As-GaAs]
+latpar = 5.65315E-10
+barrier: Al0.15Ga0.85As
+m_eff_ct_barrier: 7.237405350841751e-32
+pot_barrier: 0.156420
+e_nonparab_barrier: 2.8134221693039997e-19
+
+well: GaAs
+m_eff_ct_well: 6.103287080005001e-32
+pot_well: 0.0
+e_nonparab_well: 2.4337063070459995e-19  
+
+
+######################################
+[Al0.15Ga0.85As-GaAs - FERNANDO MASSA]
+latpar = 5.65315E-10
+barrier: Al0.15Ga0.85As
+m_eff_ct_barrier: 7.198690470110376e-32
+pot_barrier: 0.13561
+e_nonparab_barrier: 2.603735292910394e-19
+
+well: GaAs
+m_eff_ct_well: 6.103287080005001e-32
+pot_well: 0.0
+e_nonparab_well: 2.4337063070459995e-19  
+
+
+######################################
+[Al0.26Ga0.74As-GaAs - FERNANDO MASSA]
+latpar = 5.65315E-10
+barrier: Al0.26Ga0.74As
+m_eff_ct_barrier: 8.035387363093152e-32
+pot_barrier: 0.23519
+e_nonparab_barrier: 2.8134221693039997e-19
+
+well: GaAs
+m_eff_ct_well: 6.103287080005001e-32
+pot_well: 0.0
+e_nonparab_well: 2.4337063070459995e-19  
+
+######################################
+[Al0.207Ga0.793As-GaAs - FERNANDO MASSA]
+latpar = 5.65315E-10
+barrier: Al0.207Ga0.793As
+m_eff_ct_barrier: 7.632251587383269e-32
+pot_barrier: 0.1872
+e_nonparab_barrier: 2.727092007302981e-19
+
+well: GaAs
+m_eff_ct_well: 6.103287080005001e-32
+pot_well: 0.0
+e_nonparab_well: 2.4337063070459995e-19  
+
+######################################
+[Al0.42Ga0.58As-GaAs - FERNANDO MASSA]
+latpar = 5.65315E-10
+barrier: Al0.42Ga0.583As
+m_eff_ct_barrier: 9.252401025613552e-32
+pot_barrier: 0.38020
+e_nonparab_barrier: 3.18862278784112e-19
+
+well: GaAs
+m_eff_ct_well: 6.103287080005001e-32
+pot_well: 0.0
+e_nonparab_well: 2.4337063070459995e-19  
+
+
+
+
+######################################
+[Al0.19Ga0.81As-GaAs - Schneider]
+latpar = 5.65315E-10
+barrier: Al0.19Ga0.81As
+m_eff_ct_barrier: 7.539836889731551e-32
+# calculado pelo programa 1,043*x
+# pot_barrier: 0.198132
+# seguindo schneider 0,87*x
+pot_barrier: 0.1653 
+e_nonparab_barrier:  2.9146797325728e-19
+
+well: GaAs
+m_eff_ct_well: 6.103287080005001e-32
+pot_well: 0.0
+e_nonparab_well: 2.4337063070459995e-19  
+
+######################################
+[Al0.24Ga0.76As-GaAs - Schneider]
+latpar = 5.65315E-10
+barrier: Al0.24Ga0.76As
+m_eff_ct_barrier:  7.9178763133438e-32
+# calculado pelo programa 1,043*x
+# pot_barrier: 0.250272 
+# seguindo schneider 0,87*x
+pot_barrier: 0.2088 
+e_nonparab_barrier:   3.0412516866587994e-19
+
+well: GaAs
+m_eff_ct_well: 6.103287080005001e-32
+pot_well: 0.0
+e_nonparab_well: 2.4337063070459995e-19  
+
+######################################
+[Al0.48Ga0.52As-GaAs - Schneider]
+latpar = 5.65315E-10
+barrier: Al0.48Ga0.52As
+m_eff_ct_barrier: 7.993484198066251e-32
+# calculado pelo programa 1,043*x
+# pot_barrier: 0.500544 
+# seguindo schneider 0,87*x
+pot_barrier: 0.4176 
+e_nonparab_barrier:   3.066566077476e-19
+
+well: GaAs
+m_eff_ct_well: 6.103287080005001e-32
+pot_well: 0.0
+e_nonparab_well: 2.4337063070459995e-19  
+
+######################################
+[Al0.19Ga0.81As-GaAs]
+latpar = 5.65315E-10
+barrier: Al0.19Ga0.81As
+m_eff_ct_barrier: 7.539836889731551e-32
+# calculado pelo programa 1,043*x
+pot_barrier: 0.198132
+# seguindo schneider 0,87*x
+# pot_barrier: 0.1653 
+e_nonparab_barrier:  2.9146797325728e-19
+
+well: GaAs
+m_eff_ct_well: 6.103287080005001e-32
+pot_well: 0.0
+e_nonparab_well: 2.4337063070459995e-19  
+
+######################################
+[Al0.24Ga0.76As-GaAs]
+latpar = 5.65315E-10
+barrier: Al0.24Ga0.76As
+m_eff_ct_barrier:  7.9178763133438e-32
+# calculado pelo programa 1,043*x
+pot_barrier: 0.250272 
+# seguindo schneider 0,87*x
+# pot_barrier: 0.2088 
+e_nonparab_barrier:   3.0412516866587994e-19
+
+well: GaAs
+m_eff_ct_well: 6.103287080005001e-32
+pot_well: 0.0
+e_nonparab_well: 2.4337063070459995e-19  
+
+######################################
+[Al0.48Ga0.52As-GaAs]
+latpar = 5.65315E-10
+barrier: Al0.48Ga0.52As
+m_eff_ct_barrier:  9.7324655466826e-32
+# calculado pelo programa 1,043*x
+pot_barrier: 0.500544
+# seguindo schneider 0,87*x
+# pot_barrier: 0.4176 
+e_nonparab_barrier: 3.6487970662715997e-19
+
+well: GaAs
+m_eff_ct_well: 6.103287080005001e-32
+pot_well: 0.0
+e_nonparab_well: 2.4337063070459995e-19  
