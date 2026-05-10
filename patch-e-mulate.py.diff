@@ -1,0 +1,696 @@
+diff --git a/e-mulate.py b/e-mulate.py
+index 7121b8ead7e413f1e75a15c565c48c054163b6a3..ce33b550a731730f667ec6b24692f4979564e9fa 100644
+--- a/e-mulate.py
++++ b/e-mulate.py
+@@ -44,62 +44,76 @@ from matplotlib.backends.backend_qt5 import NavigationToolbar2QT as NavigationTo
+ # Changes to rcParams are system-wide, so at the end of the program, the defaults need
+ # to be reset
+ from matplotlib import rcParams
+ 
+ # Guarantees that every part of the figure is inside the canvas
+ rcParams.update({"figure.autolayout": True})
+ 
+ # File containing the main class
+ import simdata
+ import interface_config
+ 
+ # Adding the GUI files directory to the system path
+ sys.path.append(os.path.join(os.path.dirname(__file__), "GUI"))
+ 
+ NM = 1.0e-9
+ 
+ 
+ 
+ class SimulationWorker(QObject):
+     finished = pyqtSignal()
+     progress = pyqtSignal(int)
+ 
+     def __init__(
+         self, sim, method, split_i, E0, Ef, dE, dx, dx_unit, central_layer, parent=None
+     ):
++        """
++        Configure the background worker used to run ``sim.RunSim`` in a QThread.
++
++        This object is created by :meth:`MainWindow.RunSimulation`, moved to a worker
++        thread and triggered through ``thread.started``. The arguments stored here are
++        exactly the same simulation parameters collected from the Simulation tab.
++        """
+         super().__init__(parent)
+         self.sim = sim
+         self.method = method
+         self.split_i = split_i
+         self.E0 = E0
+         self.Ef = Ef
+         self.dE = dE
+         self.dx = dx
+         self.dx_unit = dx_unit
+         self.central_layer = central_layer
+ 
+     def run(self):
++        """
++        Execute the numerical simulation routine in the worker thread context.
++
++        The method forwards all stored parameters to ``self.sim.RunSim`` and relays
++        progress updates through ``progress_callback``. When finished, it emits
++        ``finished`` so the GUI can refresh tables/plots safely in the main thread.
++        """
+         self.sim.RunSim(
+             self.method,
+             self.split_i,
+             self.E0,
+             self.Ef,
+             self.dE,
+             self.dx,
+             self.dx_unit,
+             self.central_layer,
+             progress_callback=self.progress.emit,
+         )
+         self.finished.emit()
+ 
+ 
+ class MainWindow(QMainWindow):
+     """
+     Main window
+     """
+ 
+     def __init__(self, parent=None):
+         """
+         Initialization of the main window
+         """
+         super(MainWindow, self).__init__(parent)
+         # Loads the ui
+@@ -164,54 +178,55 @@ class MainWindow(QMainWindow):
+             lambda: self.UpdateStructure("ReplaceBarrier")
+         )
+         self.insert_well_btn.clicked.connect(lambda: self.UpdateStructure("InsertWell"))
+         self.insert_barrier_btn.clicked.connect(
+             lambda: self.UpdateStructure("InsertBarrier")
+         )
+         self.remove_selected_btn.clicked.connect(
+             lambda: self.UpdateStructure("RemoveSelected")
+         )
+         self.remove_last_btn.clicked.connect(lambda: self.UpdateStructure("RemoveLast"))
+         self.remove_all_btn.clicked.connect(lambda: self.UpdateStructure("RemoveAll"))
+         self.well_ml_spb.valueChanged.connect(self.UpdateUnits)
+         self.well_nm_spb.valueChanged.connect(self.UpdateUnits)
+         self.barrier_ml_spb.valueChanged.connect(self.UpdateUnits)
+         self.barrier_nm_spb.valueChanged.connect(self.UpdateUnits)
+ 
+         # Simulation tab
+         self.sim_Efield_btn.clicked.connect(self.Campo)
+         # Electric field button and spinbox are disabled because they don't work
+         self.sim_Efield_btn.setEnabled(False)
+         self.sim_Efield_spb.setEnabled(False)
+         self.sim_run_btn.clicked.connect(lambda: self.RunSimulation())
+         self.sim_plot_results_btn.clicked.connect(lambda: self.PlotSimResults())
+         self.sim_plot_structure_btn.clicked.connect(lambda: self.PlotStructure())
+         self.sim_clear_plot_btn.clicked.connect(self.ClearSimPlot)
++        self.sim_clear_energies_btn.clicked.connect(self.ClearEnergiesSelection)
+         self.sim_dx_ml_spb.valueChanged.connect(self.UpdateUnits)
+         self.sim_dx_nm_spb.valueChanged.connect(self.UpdateUnits)
+         self.sim_central_layer_spb.valueChanged.connect(lambda: self.PlotStructure())
+-        self.sim_results_list.itemChanged.connect(lambda: self.PlotSimResults())
++        self.sim_results_list.itemChanged.connect(self.HandleResultsSelectionChange)
+ 
+         # Absorption tab
+         self.abs_run_btn.clicked.connect(lambda: self.RunAbsorption())
+         self.abs_plot_btn.clicked.connect(lambda: self.PlotAbsorption())
+         self.abs_clear_plot_btn.clicked.connect(self.ClearAbsPlot)
+ 
+         # Transmission tab
+         self.tra_run_btn.clicked.connect(lambda: self.RunTransmission())
+         self.tra_plot_btn.clicked.connect(lambda: self.PlotTransmission())
+         self.tra_clear_plot_btn.clicked.connect(lambda: self.ClearTransPlot())
+ 
+         # Photocurrent tab
+         self.pc_run_btn.clicked.connect(lambda: self.RunPhotocurrent())
+         self.pc_clear_plot_btn.clicked.connect(lambda: self.ClearPhotocurrentPlot())
+ 
+         # GA tab
+         # self.ga_btn.clicked.connect(self.Sobre)
+ 
+         # Automation tab
+         self.auto_run_btn.clicked.connect(self.RunAutomation)
+ 
+         # Advanced options tab
+         self.adv_nm_layers_chkbx.stateChanged.connect(self.UpdateUnits)
+         self.adv_save_gui_config.clicked.connect(self.SaveGUIConfigFile)
+ 
+@@ -632,50 +647,56 @@ class MainWindow(QMainWindow):
+         self.struct_table.setRowCount(len(sim.material))
+         for i, material in enumerate(sim.material):
+             col0 = QTableWidgetItem(material)  # Creates the item
+             col0.setTextAlignment(0x0084)  # Align h center, v baseline
+             col1 = QTableWidgetItem(sim.feature[i])
+             col1.setTextAlignment(0x0084)  # Align h center, v baseline
+             col2 = QTableWidgetItem(f"{sim.estrutura[i] / ( sim.latpar / 2):.0f}")
+             col2.setTextAlignment(0x0082)  # Align h right, v baseline
+             col3 = QTableWidgetItem(f"{sim.estrutura[i] / NM:.3f}")
+             col3.setTextAlignment(0x0082)  # Align h right, v baseline
+             self.struct_table.setItem(i, 0, col0)
+             self.struct_table.setItem(i, 1, col1)
+             self.struct_table.setItem(i, 2, col2)
+             self.struct_table.setItem(i, 3, col3)
+             # Adjusts the line heigth
+             self.struct_table.setRowHeight(i, 18)
+             # Corrects the line index (without this correction, it starts from 1, instead of 0)
+             self.struct_table.setVerticalHeaderItem(i, QTableWidgetItem(f"{i}"))
+         # Adjusts the column width
+         self.struct_table.setColumnWidth(0, 60)
+         self.struct_table.setColumnWidth(1, 60)
+         self.struct_table.setColumnWidth(2, 40)
+         self.struct_table.setColumnWidth(3, 40)
+ 
+     def ClearStructureTable(self):
++        """
++        Clear all rows from the structure table widget.
++
++        Called before repopulating structure data to prevent stale rows from previous
++        simulations from remaining visible to the user.
++        """
+         self.struct_table.setRowCount(0)
+ 
+     # Simulation data
+     def InitializeDataTable(self):
+         """
+         Initializes the table presenting the results
+         """
+         self.data_table.setColumnCount(1)
+         self.data_table.setColumnWidth(0, 120)
+         # self.struct_table.setColumnWidth(1, 60)
+         # self.struct_table.setColumnWidth(2, 40)
+         # self.struct_table.setColumnWidth(3, 40)
+         self.data_table.move(0, 0)
+         # Definition of the header labels
+         h_lbls = ["Energy (meV)"]
+         self.data_table.setHorizontalHeaderLabels(h_lbls)
+         self.data_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+         self.data_table.setSelectionBehavior(QAbstractItemView.SelectRows)
+ 
+     def UpdateDataTable(self):
+         """
+         Function that updates the table at the data tab. The table is erased every time and
+         rewritten with data from the latest simulation
+         """
+         self.ClearDataTable()
+@@ -686,50 +707,56 @@ class MainWindow(QMainWindow):
+         for i, energia in enumerate(sim.sim_Energias):
+ 
+             col0 = QTableWidgetItem(f"{energia * 1000:.3f} meV")  # Creates the item
+             col0.setTextAlignment(0x0084)  # Align h center, v baseline
+             # col1 = QTableWidgetItem(sim.feature[i])
+             # col1.setTextAlignment(0x0084)  # Align h center, v baseline
+             # col2 = QTableWidgetItem(f"{sim.estrutura[i] / ( sim.latpar / 2):.0f}")
+             # col2.setTextAlignment(0x0082)  # Align h right, v baseline
+             # col3 = QTableWidgetItem(f"{sim.estrutura[i] / NM:.3f}")
+             # col3.setTextAlignment(0x0082)  # Align h right, v baseline
+             self.data_table.setItem(i, 0, col0)
+             # self.struct_table.setItem(i, 1, col1)
+             # self.struct_table.setItem(i, 2, col2)
+             # self.struct_table.setItem(i, 3, col3)
+             # Adjusts the line heigth
+             self.data_table.setRowHeight(i, 18)
+             # Corrects the line index (without this correction, it starts from 1, instead of 0)
+             self.data_table.setVerticalHeaderItem(i, QTableWidgetItem(f"{i}"))
+         # Adjusts the column width
+         self.data_table.setColumnWidth(0, 120)
+         # self.struct_table.setColumnWidth(1, 60)
+         # self.struct_table.setColumnWidth(2, 40)
+         # self.struct_table.setColumnWidth(3, 40)
+ 
+     def ClearDataTable(self):
++        """
++        Clear all rows from the simulation energies data table.
++
++        This only resets the UI representation. Simulation arrays in ``sim`` are not
++        modified; they are re-rendered afterwards by :meth:`UpdateDataTable`.
++        """
+         self.data_table.setRowCount(0)
+ 
+     # Plots ############################################################################
+     def CreatePlots(self):
+         """
+         Initial configuration of the plots
+         """
+         # Simulation
+         self.sim_fig = plt.figure()
+         self.sim_canvas = FigureCanvas(self.sim_fig)
+         self.sim_plot_layout.addWidget(self.sim_canvas)
+         self.sim_nav = NavigationToolbar(self.sim_canvas, self.sim_tab)
+         self.sim_plot_layout.addWidget(self.sim_nav)
+         self.sim_subplot = self.sim_fig.add_subplot(111)
+         self.sim_subplot.grid(True, axis="y")
+         self.show()
+         # Absorption
+         self.abs_fig = plt.figure()
+         self.abs_canvas = FigureCanvas(self.abs_fig)
+         self.abs_plot_layout.addWidget(self.abs_canvas)
+         self.abs_nav = NavigationToolbar(self.abs_canvas, self.abs_tab)
+         self.abs_plot_layout.addWidget(self.abs_nav)
+         self.abs_subplot = self.abs_fig.add_subplot(111)
+         self.abs_subplot.grid(True, axis="both")
+         self.show()
+@@ -851,71 +878,103 @@ class MainWindow(QMainWindow):
+         Plots the structure using arrays that were created by the UpdateStructure. Doesn't erase
+         the graph, in order to allow comparison between two structures
+         """
+         # sim = self.sim_list[self.simulation_cbox.currentIndex()]
+         self.sim_subplot.plot(sim.x_graf, sim.v_graf)  # x in [nm] and y in [meV]
+         self.sim_subplot.set_xlabel("Length (nm)")
+         self.sim_subplot.set_ylabel("Energy (meV)")
+         self.sim_subplot.set_xbound(sim.x_graf[0] - 0.2, sim.x_graf[-1] + 0.2)
+         self.sim_subplot.set_ybound(np.min(sim.v_graf) - 50, np.max(sim.v_graf) + 100)
+         self.sim_fig.tight_layout()
+         self.sim_canvas.draw()
+ 
+     def PlotSimResults(self, sim=None):
+         """
+         Plost the results from ResultadoWF.
+         """
+         # If this function is called without a specified sim, it gets the selected one from the
+         # interface combobox
+         if sim is None:
+             try:  # Gets the current selected simulation
+                 sim = self.sim_list[self.simulation_cbox.currentIndex()]
+             except:
+                 print("There is no simulation to choose from, create one first.")
+                 return
+ 
+-        # Gets the selected simulation
+-        # sim = self.sim_list[self.simulation_cbox.currentIndex()]
++        # Rebuilds the plot from scratch: structure + selected wavefunctions.
++        self.PlotStructure(sim)
+         self.sim_subplot.grid(True, axis="y")
+-        # Plots the probability density
+-        # Iterate through the list items to respect sorting and user selection
++
++        # Plots the probability density from selected energies.
+         for i in range(self.sim_results_list.count()):
+             item = self.sim_results_list.item(i)
+-            
++
+             if item.checkState() == Qt.Checked:
+-                # Retrieve original index from UserRole data
++                # Retrieve original index from UserRole data.
+                 original_index = item.data(Qt.UserRole)
+-                
+-                # Check bounds just in case
+-                if original_index < len(sim.sim_ResultadoWF):
++
++                # Fallback for legacy list entries that don't have UserRole set.
++                if original_index is None:
++                    original_index = i
++
++                # Check bounds just in case.
++                if 0 <= original_index < len(sim.sim_ResultadoWF):
+                     result = sim.sim_ResultadoWF[original_index]
+                     self.sim_subplot.plot(result[0, :] / NM, result[3, :] * 1.0e3)
+                 else:
+                     print(f"Warning: Index {original_index} out of bounds for results array.")
+ 
+         self.sim_canvas.draw()
+ 
++    def HandleResultsSelectionChange(self, item):
++        """
++        Rebuild simulation plot whenever an energy checkbox is toggled.
++
++        Qt emits itemChanged for each check/uncheck action. We always redraw from
++        scratch so deselected energies are immediately removed from the graph.
++        """
++        if item is None:
++            return
++        self.PlotSimResults()
++
++    def ClearEnergiesSelection(self):
++        """
++        Clears all selected energies, keeping only the first item checked.
++        """
++        if self.sim_results_list.count() == 0:
++            return
++
++        self.sim_results_list.blockSignals(True)
++        for i in range(self.sim_results_list.count()):
++            item = self.sim_results_list.item(i)
++            item.setCheckState(Qt.Checked if i == 0 else Qt.Unchecked)
++        self.sim_results_list.blockSignals(False)
++
++        self.ClearSimPlot()
++        self.PlotStructure()
++        self.PlotSimResults()
++
+     def ClearSimPlot(self):
+         """
+         Clears the simulation plot.
+         """
+         self.sim_fig.clf()
+         self.sim_fig.tight_layout()
+         self.sim_subplot = self.sim_fig.add_subplot(111)
+         self.sim_canvas.draw()
+ 
+     # Absorption
+     def PlotAbsorption(self, sim=None):
+         """
+         Plots the results from the absorption of the selected simulation.
+         """
+         # If this function is called without a specified sim, it gets the selected one
+         # from the interface combobox
+         if sim is None:
+             try:  # Gets the current selected simulation
+                 sim = self.sim_list[self.simulation_cbox.currentIndex()]
+             except:
+                 print("There is no simulation to choose from, create one first.")
+                 return
+ 
+         self.abs_subplot.plot(sim.abs_energy_axis, sim.abs_result)
+         self.abs_subplot.set_xlabel("Energy (eV)")
+@@ -1476,53 +1535,68 @@ class MainWindow(QMainWindow):
+         # 4 - "TMM - Split"
+         wf_method = self.adv_method_cbox.currentIndex()
+ 
+         # Timing
+         self.t_start_run = time.time()
+ 
+         # Setup Thread and Worker
+         self.thread = QThread()
+         self.worker = SimulationWorker(
+             sim, wf_method, split_i, E0, Ef, dE, dx, dx_unit, central_layer
+         )
+         self.worker.moveToThread(self.thread)
+ 
+         # Connect signals
+         self.thread.started.connect(self.worker.run)
+         self.worker.finished.connect(self.thread.quit)
+         self.worker.finished.connect(self.worker.deleteLater)
+         self.thread.finished.connect(self.thread.deleteLater)
+         self.worker.progress.connect(self.update_progress)
+         self.thread.finished.connect(lambda: self.on_simulation_finished(sim))
+ 
+         # Start thread
+         self.thread.start()
+ 
+     def update_progress(self, val):
++        """
++        Receive progress values emitted by ``SimulationWorker`` and update the progress bar.
++
++        Parameters
++        ----------
++        val : int
++            Percentage value (0-100) reported during the simulation run.
++        """
+         self.sim_progressBar.setValue(val)
+ 
+     def on_simulation_finished(self, sim):
++        """
++        Finalize interface state after the simulation thread completes.
++
++        This slot is connected in :meth:`RunSimulation` and is responsible for:
++        persisting outputs, refreshing selectable energies, updating tables/plots and
++        optionally triggering chained calculations (absorption/transmission/photocurrent).
++        """
+         # Timing
+         print(f"Total time: {time.time() - self.t_start_run:.3f} s")
+         self.sim_progressBar.setValue(100)
+ 
+         self.SaveSimOutput(sim)
+         self.PopulateResultsList(sim)
+         self.PlotSimResults(sim)
+         self.UpdateInterface()
+         self.UpdateDataTable()
+ 
+         # Re-enable run button
+         self.sim_run_btn.setEnabled(True)
+ 
+         # If the user wants, automatically calculate the absorption, transmission or
+         # photocurrent after the main simulation
+         if self.sim_autorun_abs_chkbx.checkState():
+             self.RunAbsorption(sim)
+         if self.sim_autorun_tra_chkbx.checkState():
+             self.RunTransmission(sim)
+         if self.sim_autorun_pc_chkbx.checkState():
+             self.RunPhotocurrent(sim)
+ 
+     # Transmission
+     def RunTransmission(self, sim=None):
+         """
+@@ -1619,50 +1693,56 @@ class MainWindow(QMainWindow):
+         # Gets the index of the selected simulation
+         current_index = self.simulation_cbox.currentIndex()
+         list_len = len(self.sim_list)
+ 
+         # Removes it from the simulations list, if not empty
+         if list_len == 0:
+             return
+         self.sim_list.pop(current_index)
+ 
+         # if it was the last item in the combobox, select the previous
+         if current_index == list_len - 1:
+             self.simulation_cbox.setCurrentIndex(current_index - 1)
+         # else if just selects the next item
+         else:
+             self.simulation_cbox.setCurrentIndex(current_index)
+ 
+         # Calls the function that updates the interface with the simulation selected from the
+         # combobox
+         # Updates the combobox to reflect the change made to the simulation list
+         self.UpdateInterface()
+         self.UpdateSimList()
+         self.UpdateLayerCount()
+         # self.ChangedSimulation()
+ 
+     def RenameSimulation(self):
++        """
++        Open the rename window for the currently selected simulation.
++
++        The rename dialog emits ``signal_renamed`` when confirmed; this signal is
++        connected to :meth:`CloseRenameWindow` to refresh the main UI afterwards.
++        """
+         # Gets the current selected simulation
+         try:
+             sim = self.sim_list[self.simulation_cbox.currentIndex()]
+         except:
+             print("There is no simulation to choose from, create one first.")
+             return
+         # Creates a new window pasing the selected simulation
+         self.rename_window = RenameSimWindow(sim)
+         # Shows the window
+         self.rename_window.show()
+         # Connects the signal to the function used to close the window
+         self.rename_window.signal_renamed.connect(self.CloseRenameWindow)
+ 
+     def CopySimulation(self):
+         """
+         Copies the current simulation creating a new instance with the same attributes and opens the
+         title window so that the user can change the title.
+         """
+         # Gets the current selected simulation
+         try:
+             current_sim = self.sim_list[self.simulation_cbox.currentIndex()]
+         except:
+             print("There is no simulation to choose from, create one first.")
+             return
+ 
+@@ -1731,69 +1811,88 @@ class MainWindow(QMainWindow):
+         # trazendo o grafico para o centro da estrutura e colocando em nm
+         l = l - l[-1] / 2  # / 1E-9
+         self.sim.v_graf = (
+             self.sim.v_graf - self.sim_Efield_spb.value() * 1.0e-4 * l
+         )  # 1E5 * NM
+         self.sim.e_field = self.sim.e_field + self.sim_Efield_spb.value()
+         self.label_campo.setText(str(self.sim.e_field) + " kV/cm")
+         # So altero o vetor posicao ao clicar a primeira vez (quando x0 = 0). Depois disso, o x ja
+         # esta definido
+         if self.sim.x0 == 0:
+             self.sim.x0 = self.sim.x0 - np.sum(self.sim.estrutura) / 2
+             # este valor vai ser usado no calculo quando usarmos a funcao run.
+ 
+         v = self.sim.v_graf
+         self.sim.self.sim.x_graf = l
+ 
+         self.UpdateSimGraph()
+ 
+ 
+ class SobreWindow(QMainWindow):
+     """
+     About window
+     """
+ 
+     def __init__(self, parent=None):
++        """
++        Initialize and wire the About window controls.
++
++        The UI is loaded from ``GUI/Sobre_Gui.ui`` and is opened via
++        :meth:`MainWindow.Sobre`.
++        """
+         super(SobreWindow, self).__init__(parent)
+         # uic.loadUi(os.path.join(os.getcwd(), "GUI", "Sobre_Gui.ui"), self)
+         uic.loadUi(os.path.join(os.path.dirname(__file__), "GUI", "Sobre_Gui.ui"), self)
+         self.webpage_btn.clicked.connect(self.webpage)
+         self.Ok_btn.clicked.connect(self.close)
+ 
+     def webpage(self):
++        """
++        Open the project webpage in the system default browser.
++
++        This callback is connected to the "webpage" button in the About window.
++        """
+         webbrowser.open("http://www.if.ufrj.br/~gpenello/")
+ 
+ 
+ class NewSimWindow(QWidget):
+     """
+     Window that allows the user to create a new simulation.
+     """
+ 
+     signal_new_title = pyqtSignal(str, str)
+     signal_updated_current_number = pyqtSignal(int)
+ 
+     def __init__(self, current_number, parent=None):
++        """
++        Build the New Simulation dialog and load initial UI state.
++
++        Parameters
++        ----------
++        current_number : int
++            Sequential simulation number received from the main window.
++        """
+         super(NewSimWindow, self).__init__(parent)
+         uic.loadUi(
+             os.path.join(os.path.dirname(__file__), "GUI", "New_Simulation.ui"), self
+         )
+ 
+         self.ConnectSignals()
+         # Load the information from the configuration file to the UI and updates other values
+         self.InterfaceSetup(current_number)
+         # Creates a timer to update the texts
+         self.CreateInterfaceTimer()
+ 
+     def InterfaceSetup(self, current_number):
+         """
+         Fills the interface with the updated values.
+         """
+         # Set the options in the comboboxes
+         options = ["No", "Before Title", "After Title"]
+         for option in options:
+             self.title_number_cbox.addItem(option)
+             self.title_date_cbox.addItem(option)
+             self.title_time_cbox.addItem(option)
+             self.title_materials_cbox.addItem(option)
+ 
+         # Loads the available materias from the file
+         self.mat = configparser.ConfigParser()
+@@ -1805,50 +1904,56 @@ class NewSimWindow(QWidget):
+             self.materials_cbox.addItem(pair)
+ 
+         # Updates the current simulation number
+         self.number_spb.setValue(current_number)
+ 
+     def ConnectSignals(self):
+         """
+         Definition of the interaction between button clicks, signals and actions.
+         """
+         # Set the focus to the title line, so that the user can type right away
+         self.title_line.setFocus()
+ 
+         # The window might be closed in three ways:
+         # pressing enter while the title_line is selected
+         self.title_line.returnPressed.connect(self.SetTitle)
+         # or pressing enter while it's selected
+         self.create_simulation_btn.setDefault(True)
+         # or by clicking the create_simulation button
+         self.create_simulation_btn.clicked.connect(self.SetTitle)
+ 
+         # When the user changes the simulation number, the main window gets a signal
+         # If the value in the number spinbox was modified, update the self.current_number
+         self.number_spb.valueChanged.connect(self.UpdatedCurrentNumber)
+ 
+     def UpdatedCurrentNumber(self):
++        """
++        Propagate number spinbox changes to the main window.
++
++        Called by ``number_spb.valueChanged``; keeps ``self.current_number`` consistent
++        and emits ``signal_updated_current_number`` for external synchronization.
++        """
+         self.current_number = self.number_spb.value()
+         self.signal_updated_current_number.emit(self.number_spb.value())
+ 
+     def CreateInterfaceTimer(self):
+         """
+         Creates a QTimer that regularly updates the interface, in order to keep track of the current
+         time.
+         """
+         self.UpdateTexts()  # Runs the function that updates the title once just to keep the ui tidy
+         self.txt_timer = QTimer()
+         txt_update_interval = 200  # ms
+         self.txt_timer.start(txt_update_interval)
+         self.txt_timer.timeout.connect(self.UpdateTexts)
+ 
+     def SetTitle(self):
+         """
+         When the user clicks the button or press Enter, this function will get the title, the
+         current selection of materials and emit a signal with this information, so that the main
+         window can create a new simulation.
+         """
+         title = self.ComposeTitle()
+         materials = self.materials_cbox.currentText()
+         self.signal_new_title.emit(title, materials)
+ 
+     def UpdateTexts(self):
+@@ -1884,50 +1989,58 @@ class NewSimWindow(QWidget):
+         title = title.rstrip()
+ 
+         if self.title_materials_cbox.currentIndex() == 2:
+             title += " " + self.materials_cbox.currentText()
+         if self.title_time_cbox.currentIndex() == 2:
+             title += " " + time.strftime("%Hh%Mm%Ss", now)
+         if self.title_date_cbox.currentIndex() == 2:
+             title += " " + time.strftime("%Y-%m-%d", now)
+         if self.title_number_cbox.currentIndex() == 2:
+             title += " " + str(self.number_spb.value())
+ 
+         # Just in case there are leading spaces due to the title being empty
+         title = title.lstrip()
+ 
+         return title
+ 
+ 
+ class RenameSimWindow(QWidget):
+     """
+     Window that is shown when the user renames or copies a simulation
+     """
+ 
+     signal_renamed = pyqtSignal()
+ 
+     def __init__(self, sim, parent=None):
++        """
++        Initialize the rename/copy dialog for a simulation instance.
++
++        Parameters
++        ----------
++        sim : SimData
++            Simulation object whose title is being edited.
++        """
+         super(RenameSimWindow, self).__init__(parent)
+         # uic.loadUi(os.path.join(os.getcwd(), "GUI", "Sobre_Gui.ui"), self)
+         uic.loadUi(
+             os.path.join(os.path.dirname(__file__), "GUI", "RenameSimulation.ui"), self
+         )
+         self.rename_btn.clicked.connect(lambda: self.Rename(sim))
+         # Set the focus to the title line, so that the user can type right away
+         self.title_line.setFocus()
+         # The window might be closed in three ways:
+         # pressing enter while the title_line is selected
+         self.title_line.returnPressed.connect(lambda: self.Rename(sim))
+         # or pressing enter while it's selected
+         self.rename_btn.setDefault(True)
+         # or by clicking the create_simulation button
+         self.rename_btn.clicked.connect(lambda: self.Rename(sim))
+ 
+         self.title_line.setText(sim.title)
+ 
+     def Rename(self, sim):
+         """
+         Function called when the user clicks on the "rename" button. Renames the title of sim.
+         """
+         # Gets the string from the text box
+         title = self.title_line.text()
+         # Just in case there are leading spaces due to the title being empty

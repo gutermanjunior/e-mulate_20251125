@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
@@ -797,7 +797,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QTableWidget" name="struct_table"/>
+         <widget class="QTableWidget" name="struct_table" />
         </item>
         <item>
          <spacer name="horizontalSpacer">
@@ -836,6 +836,9 @@
         </property>
         <item>
          <layout class="QGridLayout" name="gridLayout_3">
+          <property name="rowstretch">
+           <string>0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0</string>
+          </property>
           <item row="6" column="4" colspan="2">
            <widget class="QPushButton" name="sim_Efield_btn">
             <property name="sizePolicy">
@@ -865,25 +868,6 @@
              <string>Apply</string>
             </property>
            </widget>
-          </item>
-          <item row="19" column="0" colspan="6">
-           <spacer name="verticalSpacer">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>1</height>
-             </size>
-            </property>
-           </spacer>
           </item>
           <item row="1" column="3" colspan="3">
            <widget class="QDoubleSpinBox" name="sim_E0_spb">
@@ -935,20 +919,8 @@
           </item>
           <item row="15" column="0" colspan="6">
            <widget class="QProgressBar" name="sim_progressBar">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>35</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>45</height>
-             </size>
-            </property>
             <property name="styleSheet">
-             <string>QProgressBar { border: 1px solid grey; border-radius: 5px; text-align: center; } QProgressBar::chunk { background-color: #05B8CC; width: 10px; margin: 0.5px; }</string>
+             <string>QProgressBar { border: 1px solid #bdbdbd; border-radius: 2px; text-align: center; background-color: #f0f0f0; } QProgressBar::chunk { background-color: #4CAF50; }</string>
             </property>
             <property name="value">
              <number>0</number>
@@ -958,9 +930,6 @@
             </property>
             <property name="textVisible">
              <bool>true</bool>
-            </property>
-            <property name="format">
-             <string>%p%</string>
             </property>
            </widget>
           </item>
@@ -1246,7 +1215,7 @@
             </property>
            </widget>
           </item>
-          <item row="22" column="0" colspan="6">
+          <item row="23" column="0" colspan="6">
            <widget class="QPushButton" name="sim_clear_plot_btn">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
@@ -1648,7 +1617,7 @@
             </property>
            </widget>
           </item>
-          <item row="21" column="0" colspan="6">
+          <item row="22" column="0" colspan="6">
            <widget class="QPushButton" name="sim_plot_structure_btn">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
@@ -1729,31 +1698,56 @@
            </widget>
           </item>
           <item row="19" column="0" colspan="6">
-            <widget class="QListWidget" name="sim_results_list">
-              <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                <horstretch>0</horstretch>
-                <verstretch>1</verstretch>
-              </sizepolicy>
-              </property>
-            </widget>
+           <widget class="QListWidget" name="sim_results_list">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>1</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>120</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
+           </widget>
           </item>
           <item row="20" column="0" colspan="6">
-            <widget class="QPushButton" name="sim_clear_energies_btn">
-              <property name="minimumSize">
-              <size>
-                <width>55</width>
-                <height>25</height>
-              </size>
-              </property>
-
-              <property name="maximumSize">
-              <size>
-                <width>400</width>
-                <height>25</height>
-              </size>
-              </property>
-            </widget>
+           <widget class="QPushButton" name="sim_clear_energies_btn">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>200</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>400</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Clear Energies Selection</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -2609,7 +2603,7 @@
          </layout>
         </item>
         <item>
-         <layout class="QVBoxLayout" name="pc_plot_layout"/>
+         <layout class="QVBoxLayout" name="pc_plot_layout" />
         </item>
        </layout>
       </widget>
@@ -2636,7 +2630,7 @@
         <item>
          <layout class="QGridLayout" name="gridLayout_5">
           <item row="9" column="1">
-           <widget class="QSpinBox" name="spinBox"/>
+           <widget class="QSpinBox" name="spinBox" />
           </item>
           <item row="6" column="0">
            <widget class="QLabel" name="label_29">
@@ -2670,7 +2664,7 @@
            </widget>
           </item>
           <item row="4" column="1">
-           <widget class="QDoubleSpinBox" name="ga_elit_spb"/>
+           <widget class="QDoubleSpinBox" name="ga_elit_spb" />
           </item>
           <item row="11" column="0" colspan="2">
            <widget class="QLabel" name="label_35">
@@ -2717,7 +2711,7 @@
            </spacer>
           </item>
           <item row="1" column="1">
-           <widget class="QSpinBox" name="ga_iter_spb"/>
+           <widget class="QSpinBox" name="ga_iter_spb" />
           </item>
           <item row="8" column="0">
            <widget class="QLabel" name="label_31">
@@ -2727,25 +2721,25 @@
            </widget>
           </item>
           <item row="8" column="1">
-           <widget class="QComboBox" name="ga_cross_cbox"/>
+           <widget class="QComboBox" name="ga_cross_cbox" />
           </item>
           <item row="3" column="1">
-           <widget class="QDoubleSpinBox" name="doubleSpinBox_3"/>
+           <widget class="QDoubleSpinBox" name="doubleSpinBox_3" />
           </item>
           <item row="14" column="1">
-           <widget class="QComboBox" name="ga_goal_cbox"/>
+           <widget class="QComboBox" name="ga_goal_cbox" />
           </item>
           <item row="6" column="1">
-           <widget class="QDoubleSpinBox" name="ga_cross_prob_spb"/>
+           <widget class="QDoubleSpinBox" name="ga_cross_prob_spb" />
           </item>
           <item row="2" column="1">
-           <widget class="QSpinBox" name="ga_pop_spb"/>
+           <widget class="QSpinBox" name="ga_pop_spb" />
           </item>
           <item row="13" column="1">
-           <widget class="QDoubleSpinBox" name="ga_tgt_en_margin_spb"/>
+           <widget class="QDoubleSpinBox" name="ga_tgt_en_margin_spb" />
           </item>
           <item row="12" column="1">
-           <widget class="QDoubleSpinBox" name="ga_tgt_en_spb"/>
+           <widget class="QDoubleSpinBox" name="ga_tgt_en_spb" />
           </item>
           <item row="16" column="0" colspan="2">
            <widget class="QPushButton" name="ga_run_btn">
@@ -2783,7 +2777,7 @@
            </widget>
           </item>
           <item row="5" column="1">
-           <widget class="QDoubleSpinBox" name="ga_parents_spb"/>
+           <widget class="QDoubleSpinBox" name="ga_parents_spb" />
           </item>
           <item row="7" column="0">
            <widget class="QLabel" name="label_33">
@@ -2793,7 +2787,7 @@
            </widget>
           </item>
           <item row="7" column="1">
-           <widget class="QComboBox" name="ga_multi_cpu_cbox"/>
+           <widget class="QComboBox" name="ga_multi_cpu_cbox" />
           </item>
          </layout>
         </item>
@@ -2828,7 +2822,7 @@
            </widget>
           </item>
           <item row="2" column="4">
-           <widget class="QDoubleSpinBox" name="doubleSpinBox"/>
+           <widget class="QDoubleSpinBox" name="doubleSpinBox" />
           </item>
           <item row="0" column="0" colspan="3">
            <widget class="QLabel" name="label_41">
@@ -2857,7 +2851,7 @@
           <item row="2" column="3">
            <widget class="QCheckBox" name="checkBox_2">
             <property name="text">
-             <string/>
+             <string />
             </property>
            </widget>
           </item>
@@ -2882,7 +2876,7 @@
            </widget>
           </item>
           <item row="2" column="5">
-           <widget class="QDoubleSpinBox" name="doubleSpinBox_2"/>
+           <widget class="QDoubleSpinBox" name="doubleSpinBox_2" />
           </item>
          </layout>
         </item>
@@ -3039,7 +3033,7 @@
         <item>
          <layout class="QGridLayout" name="gridLayout_7">
           <item row="0" column="0">
-           <widget class="QTableWidget" name="data_table"/>
+           <widget class="QTableWidget" name="data_table" />
           </item>
          </layout>
         </item>
@@ -3137,7 +3131,7 @@
            </widget>
           </item>
           <item row="3" column="1" colspan="4">
-           <widget class="QComboBox" name="adv_method_cbox"/>
+           <widget class="QComboBox" name="adv_method_cbox" />
           </item>
           <item row="1" column="0">
            <widget class="QCheckBox" name="adv_nm_layers_chkbx">
@@ -3183,7 +3177,7 @@
          </font>
         </property>
         <property name="text">
-         <string/>
+         <string />
         </property>
        </widget>
       </item>
@@ -3477,22 +3471,22 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="action_new"/>
-    <addaction name="action_load"/>
-    <addaction name="action_save"/>
-    <addaction name="separator"/>
-    <addaction name="action_exit"/>
+    <addaction name="action_new" />
+    <addaction name="action_load" />
+    <addaction name="action_save" />
+    <addaction name="separator" />
+    <addaction name="action_exit" />
    </widget>
    <widget class="QMenu" name="menu_help">
     <property name="title">
      <string>Help</string>
     </property>
-    <addaction name="action_about"/>
+    <addaction name="action_about" />
    </widget>
-   <addaction name="menu_file"/>
-   <addaction name="menu_help"/>
+   <addaction name="menu_file" />
+   <addaction name="menu_help" />
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QStatusBar" name="statusbar" />
   <action name="action_load">
    <property name="text">
     <string>Load</string>
@@ -3519,6 +3513,6 @@
    </property>
   </action>
  </widget>
- <resources/>
- <connections/>
+ <resources />
+ <connections />
 </ui>
