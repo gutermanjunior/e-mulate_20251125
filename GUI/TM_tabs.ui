@@ -1070,7 +1070,7 @@
             </property>
            </widget>
           </item>
-          <item row="20" column="0" colspan="6">
+          <item row="21" column="0" colspan="6">
            <widget class="QPushButton" name="sim_plot_results_btn">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
@@ -1729,14 +1729,31 @@
            </widget>
           </item>
           <item row="19" column="0" colspan="6">
-           <widget class="QListWidget" name="sim_results_list">
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>150</height>
-             </size>
-            </property>
-           </widget>
+            <widget class="QListWidget" name="sim_results_list">
+              <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>1</verstretch>
+              </sizepolicy>
+              </property>
+            </widget>
+          </item>
+          <item row="20" column="0" colspan="6">
+            <widget class="QPushButton" name="sim_clear_energies_btn">
+              <property name="minimumSize">
+              <size>
+                <width>55</width>
+                <height>25</height>
+              </size>
+              </property>
+
+              <property name="maximumSize">
+              <size>
+                <width>400</width>
+                <height>25</height>
+              </size>
+              </property>
+            </widget>
           </item>
          </layout>
         </item>
