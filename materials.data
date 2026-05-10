@@ -68,6 +68,59 @@ e_nonparab_well: 2.2815e-19
 
 
 
+
+
+
+
+
+
+
+
+
+
+###################################################################################################
+# BLOCO DE MATERIAL: Al0.15Ga0.85As / GaAs
+# =================================================================================================
+# DESCRIÇÃO:     Parâmetros físicos e eletrônicos para simulação de heteroestrutura.
+# FONTE:         Ioffe Institute - NSM Archive
+# URL DA FONTE:  https://www.ioffe.ru/SVA/NSM/Semicond/AlGaAs/basic.html
+# TEMPERATURA:   300 K
+# ESTRUTURA:     Zinc Blende (Grupo de Simetria Td^2-F43m)
+# GERADO POR:    Guterman Junior (via script gerador_algaas.py)
+# DATA/HORA:     2026-05-02 13:49:35
+#
+# DADOS EXTRAS DO MATERIAL (Al0.15Ga0.85As):
+#  - Densidade:                       5.0860 g/cm³
+#  - Temperatura de Debye:            378.60 K
+#  - Constante Dielétrica (estática): 12.4740
+#  - Constante Dielétrica (alta frq): 10.4805
+#  - Energia do fônon óptico:         36.8925 meV
+# =================================================================================================
+[Ioffe-20260502-Al0.15Ga0.85As-GaAs]
+latpar = 5.654470E-10
+
+barrier: Al0.15Ga0.85As
+# Massa efetiva da barreira (m_e = 0.07545 m_o)
+m_eff_ct_barrier: 6.8730300027817506e-32
+# Potencial da barreira (Offset de condução via Afinidade Eletrônica da tabela)
+pot_barrier: 0.165000
+# e_nonparab_barrier: (Fallback: mantida equação do arquivo original, imagem sem gap explicito)
+e_nonparab_barrier: 2.8134221693039997e-19
+
+well: GaAs
+# Massa efetiva do poço (GaAs na imagem equivale a x=0 -> 0.063 m_o)
+m_eff_ct_well: 5.7389117319450002e-32
+pot_well: 0.0
+# e_nonparab_well: (Fallback: mantida equação do arquivo original)
+e_nonparab_well: 2.4337063070459995e-19
+
+
+
+
+
+
+
+
 ###################################################################################################
 # material_GMP_20260323.data
 ###################################################################################################
