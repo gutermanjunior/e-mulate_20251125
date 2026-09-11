@@ -5,6 +5,7 @@
 # Saídas do simulador
 Simulacoes/*
 Simulacoes/.gitkeep
+Absorption/
 
 # Outros possíveis outputs
 output/
