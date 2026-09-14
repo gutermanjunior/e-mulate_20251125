@@ -21,6 +21,582 @@
 ####################################################################################################
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ParamSet_ID: PS-IOF-DIR-AL026_GAAS
+# Source matrix: 01_Matriz_Canonica B:C
+# Role: CANONICO
+# T_K: 300
+# CBO mode: Ioffe F(xb)-F(xw), piecewise
+# Enp mode: Eg_as_Enp
+[IOFFE-DirectHeterointerface-EgAsEnp-Al0.26Ga0.74As-GaAs]
+latpar = 5.655328000000000E-10
+
+barrier: Al0.26Ga0.74As
+m_eff_ct_barrier: 7.704716734728701E-32
+pot_barrier: 0.2054
+e_nonparab_barrier: 2.800957235091480E-19
+
+well: GaAs
+m_eff_ct_well: 5.738911731945000E-32
+pot_well: 0
+e_nonparab_well: 2.281499526816000E-19
+
+
+
+# ParamSet_ID: PS-IOF-AND-AL026_GAAS
+# Source matrix: 01_Matriz_Canonica D:E
+# Role: VARIANTE COMPARATIVA
+# T_K: 300
+# CBO mode: Anderson via chi: 1.1*(xb-xw)
+# Enp mode: Eg_as_Enp
+[IOFFE-AndersonAffinity-EgAsEnp-Al0.26Ga0.74As-GaAs]
+latpar = 5.655328000000000E-10
+
+barrier: Al0.26Ga0.74As
+m_eff_ct_barrier: 7.704716734728701E-32
+pot_barrier: 0.286
+e_nonparab_barrier: 2.800957235091480E-19
+
+well: GaAs
+m_eff_ct_well: 5.738911731945000E-32
+pot_well: 0
+e_nonparab_well: 2.281499526816000E-19
+
+
+
+# ParamSet_ID: PS-SL-1B-AL026_GAAS
+# Source matrix: 01_Matriz_Canonica F:G
+# Role: MODELO LITERATURA ONE-BAND
+# T_K: not_explicit
+# CBO mode: 0.87*(xb-xw)
+# Enp mode: 1 J surrogate parabolico
+[SL-CBO087-OneBand-Al0.26Ga0.74As-GaAs]
+latpar = 5.655328000000000E-10
+
+barrier: Al0.26Ga0.74As
+m_eff_ct_barrier: 8.069092082788701E-32
+pot_barrier: 0.2262
+e_nonparab_barrier: 1.000000000000000E+00
+
+well: GaAs
+m_eff_ct_well: 6.103287080005001E-32
+pot_well: 0
+e_nonparab_well: 1.000000000000000E+00
+
+
+
+# ParamSet_ID: PS-SL-2B-AL026_GAAS
+# Source matrix: 01_Matriz_Canonica H:I
+# Role: MODELO LITERATURA TWO-BAND
+# T_K: not_explicit
+# CBO mode: Vc(xb)-Vc(xw)
+# Enp mode: Vc-Vv
+[SL-TwoBand-2007-Al0.26Ga0.74As-GaAs]
+latpar = 5.655328000000000E-10
+
+barrier: Al0.26Ga0.74As
+m_eff_ct_barrier: 8.069092082788701E-32
+pot_barrier: 0.2128057152
+e_nonparab_barrier: 3.217577681763204E-19
+
+well: GaAs
+m_eff_ct_well: 6.103287080005001E-32
+pot_well: 0
+e_nonparab_well: 2.433706307046000E-19
+
+
+
+# ParamSet_ID: PS-VUR-KL-AL026_GAAS
+# Source matrix: 01_Matriz_Canonica J:K
+# Role: REDUCAO AUDITAVEL
+# T_K: 300
+# CBO mode: [EgGamma-0.53x]_b - [EgGamma-0.53x]_w
+# Enp mode: Kane linearizado: 1/alphaK
+[VUR2001-Gamma-KaneLinearized-T300K-Al0.26Ga0.74As-GaAs]
+latpar = 5.655291000000000E-10
+
+barrier: Al0.26Ga0.74As
+m_eff_ct_barrier: 7.549994067266702E-32
+pot_barrier: 0.232047400448
+e_nonparab_barrier: 2.559184373638246E-19
+
+well: GaAs
+m_eff_ct_well: 5.671632452785669E-32
+pot_well: 0
+e_nonparab_well: 2.046257746265918E-19
+
+
+
+# ParamSet_ID: PS-GMP-HIST-AL026_GAAS
+# Source matrix: 01_Matriz_Canonica L:M
+# Role: CONTROLE HISTORICO
+# T_K: not_explicit
+# CBO mode: 1.0428*(xb-xw)
+# Enp mode: (1.519+1.580x)*e
+[GMP-Vurgaftman-Historical-20221007-Al0.26Ga0.74As-GaAs]
+latpar = 5.653150000000000E-10
+
+barrier: Al0.26Ga0.74As
+m_eff_ct_barrier: 8.069092082788701E-32
+pot_barrier: 0.271128
+e_nonparab_barrier: 3.091880468293200E-19
+
+well: GaAs
+m_eff_ct_well: 6.103287080005001E-32
+pot_well: 0
+e_nonparab_well: 2.433706307046000E-19
+
+
+
+# ParamSet_ID: PS-IOF-DIR-AL0207_GAAS
+# Source matrix: 01_Matriz_Canonica B:C
+# Role: CANONICO
+# T_K: 300
+# CBO mode: Ioffe F(xb)-F(xw), piecewise
+# Enp mode: Eg_as_Enp
+[IOFFE-DirectHeterointerface-EgAsEnp-Al0.207Ga0.793As-GaAs]
+latpar = 5.654914600000000E-10
+
+barrier: Al0.207Ga0.793As
+m_eff_ct_barrier: 7.303994945699716E-32
+pot_barrier: 0.16353
+e_nonparab_barrier: 2.695067779173786E-19
+
+well: GaAs
+m_eff_ct_well: 5.738911731945000E-32
+pot_well: 0
+e_nonparab_well: 2.281499526816000E-19
+
+
+
+# ParamSet_ID: PS-IOF-AND-AL0207_GAAS
+# Source matrix: 01_Matriz_Canonica D:E
+# Role: VARIANTE COMPARATIVA
+# T_K: 300
+# CBO mode: Anderson via chi: 1.1*(xb-xw)
+# Enp mode: Eg_as_Enp
+[IOFFE-AndersonAffinity-EgAsEnp-Al0.207Ga0.793As-GaAs]
+latpar = 5.654914600000000E-10
+
+barrier: Al0.207Ga0.793As
+m_eff_ct_barrier: 7.303994945699716E-32
+pot_barrier: 0.2277
+e_nonparab_barrier: 2.695067779173786E-19
+
+well: GaAs
+m_eff_ct_well: 5.738911731945000E-32
+pot_well: 0
+e_nonparab_well: 2.281499526816000E-19
+
+
+
+# ParamSet_ID: PS-SL-1B-AL0207_GAAS
+# Source matrix: 01_Matriz_Canonica F:G
+# Role: MODELO LITERATURA ONE-BAND
+# T_K: not_explicit
+# CBO mode: 0.87*(xb-xw)
+# Enp mode: 1 J surrogate parabolico
+[SL-CBO087-OneBand-Al0.207Ga0.793As-GaAs]
+latpar = 5.654914600000000E-10
+
+barrier: Al0.207Ga0.793As
+m_eff_ct_barrier: 7.668370293759716E-32
+pot_barrier: 0.18009
+e_nonparab_barrier: 1.000000000000000E+00
+
+well: GaAs
+m_eff_ct_well: 6.103287080005001E-32
+pot_well: 0
+e_nonparab_well: 1.000000000000000E+00
+
+
+
+# ParamSet_ID: PS-SL-2B-AL0207_GAAS
+# Source matrix: 01_Matriz_Canonica H:I
+# Role: MODELO LITERATURA TWO-BAND
+# T_K: not_explicit
+# CBO mode: Vc(xb)-Vc(xw)
+# Enp mode: Vc-Vv
+[SL-TwoBand-2007-Al0.207Ga0.793As-GaAs]
+latpar = 5.654914600000000E-10
+
+barrier: Al0.207Ga0.793As
+m_eff_ct_barrier: 7.668370293759716E-32
+pot_barrier: 0.174586639688
+e_nonparab_barrier: 3.057788516917004E-19
+
+well: GaAs
+m_eff_ct_well: 6.103287080005001E-32
+pot_well: 0
+e_nonparab_well: 2.433706307046000E-19
+
+
+
+# ParamSet_ID: PS-VUR-KL-AL0207_GAAS
+# Source matrix: 01_Matriz_Canonica J:K
+# Role: REDUCAO AUDITAVEL
+# T_K: 300
+# CBO mode: [EgGamma-0.53x]_b - [EgGamma-0.53x]_w
+# Enp mode: Kane linearizado: 1/alphaK
+[VUR2001-Gamma-KaneLinearized-T300K-Al0.207Ga0.793As-GaAs]
+latpar = 5.654874950000000E-10
+
+barrier: Al0.207Ga0.793As
+m_eff_ct_barrier: 7.202690801157435E-32
+pot_barrier: 0.193799028686
+e_nonparab_barrier: 2.459973527317894E-19
+
+well: GaAs
+m_eff_ct_well: 5.671632452785669E-32
+pot_well: 0
+e_nonparab_well: 2.046257746265918E-19
+
+
+
+# ParamSet_ID: PS-GMP-HIST-AL0207_GAAS
+# Source matrix: 01_Matriz_Canonica L:M
+# Role: CONTROLE HISTORICO
+# T_K: not_explicit
+# CBO mode: 1.0428*(xb-xw)
+# Enp mode: (1.519+1.580x)*e
+[GMP-Vurgaftman-Historical-20221007-Al0.207Ga0.793As-GaAs]
+latpar = 5.653150000000000E-10
+
+barrier: Al0.207Ga0.793As
+m_eff_ct_barrier: 7.668370293759716E-32
+pot_barrier: 0.2158596
+e_nonparab_barrier: 2.957714196962040E-19
+
+well: GaAs
+m_eff_ct_well: 6.103287080005001E-32
+pot_well: 0
+e_nonparab_well: 2.433706307046000E-19
+
+
+
+# ParamSet_ID: PS-IOF-DIR-AL033_AL013
+# Source matrix: 01_Matriz_Canonica B:C
+# Role: CANONICO
+# T_K: 300
+# CBO mode: Ioffe F(xb)-F(xw), piecewise
+# Enp mode: Eg_as_Enp
+[IOFFE-DirectHeterointerface-EgAsEnp-Al0.33Ga0.67As-Al0.13Ga0.87As]
+latpar = 5.655874000000000E-10
+
+barrier: Al0.33Ga0.67As
+m_eff_ct_barrier: 8.233971927785851E-32
+pot_barrier: 0.158
+e_nonparab_barrier: 2.940811233473340E-19
+
+well: Al0.13Ga0.87As
+m_eff_ct_well: 6.721814233336850E-32
+pot_well: 0
+e_nonparab_well: 2.541228380953740E-19
+
+
+
+# ParamSet_ID: PS-IOF-AND-AL033_AL013
+# Source matrix: 01_Matriz_Canonica D:E
+# Role: VARIANTE COMPARATIVA
+# T_K: 300
+# CBO mode: Anderson via chi: 1.1*(xb-xw)
+# Enp mode: Eg_as_Enp
+[IOFFE-AndersonAffinity-EgAsEnp-Al0.33Ga0.67As-Al0.13Ga0.87As]
+latpar = 5.655874000000000E-10
+
+barrier: Al0.33Ga0.67As
+m_eff_ct_barrier: 8.233971927785851E-32
+pot_barrier: 0.22
+e_nonparab_barrier: 2.940811233473340E-19
+
+well: Al0.13Ga0.87As
+m_eff_ct_well: 6.721814233336850E-32
+pot_well: 0
+e_nonparab_well: 2.541228380953740E-19
+
+
+
+# ParamSet_ID: PS-SL-1B-AL033_AL013
+# Source matrix: 01_Matriz_Canonica F:G
+# Role: MODELO LITERATURA ONE-BAND
+# T_K: not_explicit
+# CBO mode: 0.87*(xb-xw)
+# Enp mode: 1 J surrogate parabolico
+[SL-CBO087-OneBand-Al0.33Ga0.67As-Al0.13Ga0.87As]
+latpar = 5.655874000000000E-10
+
+barrier: Al0.33Ga0.67As
+m_eff_ct_barrier: 8.598347275845850E-32
+pot_barrier: 0.174
+e_nonparab_barrier: 1.000000000000000E+00
+
+well: Al0.13Ga0.87As
+m_eff_ct_well: 7.086189581396851E-32
+pot_well: 0
+e_nonparab_well: 1.000000000000000E+00
+
+
+
+# ParamSet_ID: PS-SL-2B-AL033_AL013
+# Source matrix: 01_Matriz_Canonica H:I
+# Role: MODELO LITERATURA TWO-BAND
+# T_K: not_explicit
+# CBO mode: Vc(xb)-Vc(xw)
+# Enp mode: Vc-Vv
+[SL-TwoBand-2007-Al0.33Ga0.67As-Al0.13Ga0.87As]
+latpar = 5.655874000000000E-10
+
+barrier: Al0.33Ga0.67As
+m_eff_ct_barrier: 8.598347275845850E-32
+pot_barrier: 0.146031378
+e_nonparab_barrier: 3.428619974956297E-19
+
+well: Al0.13Ga0.87As
+m_eff_ct_well: 7.086189581396851E-32
+pot_well: 0
+e_nonparab_well: 2.825641994404602E-19
+
+
+
+# ParamSet_ID: PS-VUR-KL-AL033_AL013
+# Source matrix: 01_Matriz_Canonica J:K
+# Role: REDUCAO AUDITAVEL
+# T_K: 300
+# CBO mode: [EgGamma-0.53x]_b - [EgGamma-0.53x]_w
+# Enp mode: Kane linearizado: 1/alphaK
+[VUR2001-Gamma-KaneLinearized-T300K-Al0.33Ga0.67As-Al0.13Ga0.87As]
+latpar = 5.655840500000001E-10
+
+barrier: Al0.33Ga0.67As
+m_eff_ct_barrier: 7.993744638138532E-32
+pot_barrier: 0.147506200344
+e_nonparab_barrier: 2.691350530883330E-19
+
+well: Al0.13Ga0.87As
+m_eff_ct_well: 6.671071606982470E-32
+pot_well: 0
+e_nonparab_well: 2.313455481474964E-19
+
+
+
+# ParamSet_ID: PS-GMP-HIST-AL033_AL013
+# Source matrix: 01_Matriz_Canonica L:M
+# Role: CONTROLE HISTORICO
+# T_K: not_explicit
+# CBO mode: 1.0428*(xb-xw)
+# Enp mode: (1.519+1.580x)*e
+[GMP-Vurgaftman-Historical-20221007-Al0.33Ga0.67As-Al0.13Ga0.87As]
+latpar = 5.653150000000000E-10
+
+barrier: Al0.33Ga0.67As
+m_eff_ct_barrier: 8.598347275845850E-32
+pot_barrier: 0.20856
+e_nonparab_barrier: 3.269081204013600E-19
+
+well: Al0.13Ga0.87As
+m_eff_ct_well: 7.086189581396851E-32
+pot_well: 0
+e_nonparab_well: 2.762793387669600E-19
+
+
+
+# ParamSet_ID: PS-IOF-DIR-AL042_GAAS
+# Source matrix: 01_Matriz_Canonica B:C
+# Role: CANONICO
+# T_K: 300
+# CBO mode: Ioffe F(xb)-F(xw), piecewise
+# Enp mode: Eg_as_Enp
+[IOFFE-DirectHeterointerface-EgAsEnp-Al0.42Ga0.58As-GaAs]
+latpar = 5.656575999999999E-10
+
+barrier: Al0.42Ga0.58As
+m_eff_ct_barrier: 8.914442890287901E-32
+pot_barrier: 0.3595252
+e_nonparab_barrier: 3.120623517107160E-19
+
+well: GaAs
+m_eff_ct_well: 5.738911731945000E-32
+pot_well: 0
+e_nonparab_well: 2.281499526816000E-19
+
+
+
+# ParamSet_ID: PS-IOF-AND-AL042_GAAS
+# Source matrix: 01_Matriz_Canonica D:E
+# Role: VARIANTE COMPARATIVA
+# T_K: 300
+# CBO mode: Anderson via chi: 1.1*(xb-xw)
+# Enp mode: Eg_as_Enp
+[IOFFE-AndersonAffinity-EgAsEnp-Al0.42Ga0.58As-GaAs]
+latpar = 5.656575999999999E-10
+
+barrier: Al0.42Ga0.58As
+m_eff_ct_barrier: 8.914442890287901E-32
+pot_barrier: 0.462
+e_nonparab_barrier: 3.120623517107160E-19
+
+well: GaAs
+m_eff_ct_well: 5.738911731945000E-32
+pot_well: 0
+e_nonparab_well: 2.281499526816000E-19
+
+
+
+# ParamSet_ID: PS-SL-1B-AL042_GAAS
+# Source matrix: 01_Matriz_Canonica F:G
+# Role: MODELO LITERATURA ONE-BAND
+# T_K: not_explicit
+# CBO mode: 0.87*(xb-xw)
+# Enp mode: 1 J surrogate parabolico
+[SL-CBO087-OneBand-Al0.42Ga0.58As-GaAs]
+latpar = 5.656575999999999E-10
+
+barrier: Al0.42Ga0.58As
+m_eff_ct_barrier: 9.278818238347902E-32
+pot_barrier: 0.3654
+e_nonparab_barrier: 1.000000000000000E+00
+
+well: GaAs
+m_eff_ct_well: 6.103287080005001E-32
+pot_well: 0
+e_nonparab_well: 1.000000000000000E+00
+
+
+
+# ParamSet_ID: PS-SL-2B-AL042_GAAS
+# Source matrix: 01_Matriz_Canonica H:I
+# Role: MODELO LITERATURA TWO-BAND
+# T_K: not_explicit
+# CBO mode: Vc(xb)-Vc(xw)
+# Enp mode: Vc-Vv
+[SL-TwoBand-2007-Al0.42Ga0.58As-GaAs]
+latpar = 5.656575999999999E-10
+
+barrier: Al0.42Ga0.58As
+m_eff_ct_barrier: 9.278818238347902E-32
+pot_barrier: 0.3228414336
+e_nonparab_barrier: 3.699960066204560E-19
+
+well: GaAs
+m_eff_ct_well: 6.103287080005001E-32
+pot_well: 0
+e_nonparab_well: 2.433706307046000E-19
+
+
+
+# ParamSet_ID: PS-VUR-KL-AL042_GAAS
+# Source matrix: 01_Matriz_Canonica J:K
+# Role: REDUCAO AUDITAVEL
+# T_K: 300
+# CBO mode: [EgGamma-0.53x]_b - [EgGamma-0.53x]_w
+# Enp mode: Kane linearizado: 1/alphaK
+[VUR2001-Gamma-KaneLinearized-T300K-Al0.42Ga0.58As-GaAs]
+latpar = 5.656547000000000E-10
+
+barrier: Al0.42Ga0.58As
+m_eff_ct_barrier: 8.555051437573910E-32
+pot_barrier: 0.338141160723
+e_nonparab_barrier: 2.868987566882702E-19
+
+well: GaAs
+m_eff_ct_well: 5.671632452785669E-32
+pot_well: 0
+e_nonparab_well: 2.046257746265918E-19
+
+
+
+# ParamSet_ID: PS-GMP-HIST-AL042_GAAS
+# Source matrix: 01_Matriz_Canonica L:M
+# Role: CONTROLE HISTORICO
+# T_K: not_explicit
+# CBO mode: 1.0428*(xb-xw)
+# Enp mode: (1.519+1.580x)*e
+[GMP-Vurgaftman-Historical-20221007-Al0.42Ga0.58As-GaAs]
+latpar = 5.653150000000000E-10
+
+barrier: Al0.42Ga0.58As
+m_eff_ct_barrier: 9.278818238347902E-32
+pot_barrier: 0.437976
+e_nonparab_barrier: 3.496910721368400E-19
+
+well: GaAs
+m_eff_ct_well: 6.103287080005001E-32
+pot_well: 0
+e_nonparab_well: 2.433706307046000E-19
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ####################################################################################################
 # 1. ORIGINAL / EXAMPLE MATERIALS
 ####################################################################################################
